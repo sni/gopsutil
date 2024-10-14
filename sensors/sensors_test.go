@@ -21,7 +21,24 @@ func TestTemperatureStat_String(t *testing.T) {
 	}
 }
 
+func skipIfNotImplementedErr(t *testing.T, err error) {
+        if errors.Is(err, common.ErrNotImplementedError) {
+                t.Skip("not implemented")
+        }
+}
+
 func TestTemperatures(t *testing.T) {
-	// make sure it does not segfault
-	sensors.TemperaturesWithContext(context.TODO())
+        if os.Getenv("CI") != "" {
+                t.Skip("Skip CI")
+        }
+
+	v, err := SensorsTemperatures()
+	skipIfNotImplementedErr(t, err)
+	if err != nil {	
+		t.Errorf("error %v", err)
+        }
+        if len(v) == 0 {	
+		t.Errorf("Could not get temperature %v", v)
+        }
+        t.Log(v)
 }
