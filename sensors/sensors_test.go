@@ -6,8 +6,6 @@ import (
 	"context"
 	"fmt"
 	"testing"
-
-	"github.com/shirou/gopsutil/v4/sensors"
 )
 
 func TestTemperatureStat_String(t *testing.T) {
